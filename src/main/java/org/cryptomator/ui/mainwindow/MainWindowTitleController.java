@@ -36,6 +36,7 @@ public class MainWindowTitleController implements FxController {
 	private final BooleanBinding showMinimizeButton;
 
 	public HBox titleBar;
+	public HBox titleBarMac;
 	private double xOffset;
 	private double yOffset;
 
@@ -56,32 +57,61 @@ public class MainWindowTitleController implements FxController {
 	public void initialize() {
 		LOG.trace("init MainWindowTitleController");
 		updateChecker.automaticallyCheckForUpdatesIfEnabled();
-		titleBar.setOnMousePressed(event -> {
-			xOffset = event.getSceneX();
-			yOffset = event.getSceneY();
+		if (System.getProperty("os.name").contains("Mac")) {
+			titleBarMac.setOnMousePressed(event -> {
+				xOffset = event.getSceneX();
+				yOffset = event.getSceneY();
 
-		});
-		titleBar.setOnMouseClicked(event -> {
-			if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
-				window.setFullScreen(!window.isFullScreen());
-			}
-		});
-		titleBar.setOnMouseDragged(event -> {
-			if (window.isFullScreen()) return;
-			window.setX(event.getScreenX() - xOffset);
-			window.setY(event.getScreenY() - yOffset);
-		});
-		titleBar.setOnDragDetected(mouseDragEvent -> {
-			titleBar.startFullDrag();
-		});
-		titleBar.setOnMouseDragReleased(mouseDragEvent -> {
-			saveWindowSettings();
-		});
+			});
+			titleBarMac.setOnMouseClicked(event -> {
+				if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+					window.setFullScreen(!window.isFullScreen());
+				}
+			});
+			titleBarMac.setOnMouseDragged(event -> {
+				if (window.isFullScreen()) return;
+				window.setX(event.getScreenX() - xOffset);
+				window.setY(event.getScreenY() - yOffset);
+			});
+			titleBarMac.setOnDragDetected(mouseDragEvent -> {
+				titleBarMac.startFullDrag();
+			});
+			titleBarMac.setOnMouseDragReleased(mouseDragEvent -> {
+				saveWindowSettings();
+			});
 
-		window.setOnCloseRequest(event -> {
-			close();
-			event.consume();
-		});
+			window.setOnCloseRequest(event -> {
+				close();
+				event.consume();
+			});
+		} else {
+			titleBar.setOnMousePressed(event -> {
+				xOffset = event.getSceneX();
+				yOffset = event.getSceneY();
+
+			});
+			titleBar.setOnMouseClicked(event -> {
+				if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+					window.setFullScreen(!window.isFullScreen());
+				}
+			});
+			titleBar.setOnMouseDragged(event -> {
+				if (window.isFullScreen()) return;
+				window.setX(event.getScreenX() - xOffset);
+				window.setY(event.getScreenY() - yOffset);
+			});
+			titleBar.setOnDragDetected(mouseDragEvent -> {
+				titleBar.startFullDrag();
+			});
+			titleBar.setOnMouseDragReleased(mouseDragEvent -> {
+				saveWindowSettings();
+			});
+
+			window.setOnCloseRequest(event -> {
+				close();
+				event.consume();
+			});
+		}
 	}
 
 	private void saveWindowSettings() {
