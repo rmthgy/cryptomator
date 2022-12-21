@@ -23,7 +23,6 @@ public enum FxmlFile {
 	LOCK_FORCED("/fxml/lock_forced.fxml"), //
 	LOCK_FAILED("/fxml/lock_failed.fxml"), //
 	MAIN_WINDOW("/fxml/main_window.fxml"), //
-	MAIN_WINDOW_MAC("/fxml/main_window_mac.fxml"), //
 	MIGRATION_CAPABILITY_ERROR("/fxml/migration_capability_error.fxml"), //
 	MIGRATION_IMPOSSIBLE("/fxml/migration_impossible.fxml"),
 	MIGRATION_RUN("/fxml/migration_run.fxml"), //
